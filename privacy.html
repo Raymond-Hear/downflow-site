@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DownFlow（下载续航） 1.2.0 · 隐私说明</title>
+<link rel="icon" href="icons/32.png">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header">
+  <div class="site-width site-bar">
+    <a class="wordmark" href="index.html">
+      <img src="icons/48.png" width="36" height="36" alt="">
+      <span>DownFlow <span class="brand-name">下载续航</span></span>
+    </a>
+    <nav class="site-nav" aria-label="说明页面"><a href="index.html">使用指南</a><a href="#contact">联系维护者</a></nav>
+  </div>
+</header>
+<main class="site-width guide" id="main"><div class="policy">
+
+<header class="hero"><p class="hero-meta">DownFlow 下载续航 · v1.2.0</p><h1>隐私说明</h1><p>扩展在本机管理你选中的下载任务。</p></header>
+<p class="meta">适用版本：1.2.0<br>更新日期：2026-11-17<br>维护者：聆风（聆风Raymond）</p>
+<nav class="nav" aria-label="页面导航"><a href="#data">处理的数据</a><a href="#diagnostic">诊断复制</a><a href="#clear">清除记录</a></nav>
+<section class="panel note"><h2>本版本的数据处理方式</h2><p>DownFlow（下载续航）用于检查 Edge 已有下载的状态，并在合适的中断情况下尝试恢复。扩展<strong>没有远程数据请求、上传功能或遥测</strong>，不会把下载记录发送给开发者，也不读取下载文件的内容。功能所需的守护状态保存在本机。</p><p>恢复下载会让 <strong>Edge 按原任务继续向原下载服务器请求文件</strong>。这属于浏览器正常下载流量，不是扩展新增的数据上传或代理服务。</p></section>
+<section id="data" class="panel"><h2>1. 为完成任务，会处理哪些信息</h2><p>Edge 下载管理接口返回完整下载条目，可能包含来源 URL 和完整本地路径。扩展只将下列必要字段用于功能；完整来源 URL 和路径不写入本地守护状态或诊断，也不上传。</p><div class="table-scroll"><table><thead><tr><th>信息</th><th>用途与范围</th></tr></thead><tbody>
+<tr><td>下载任务标识</td><td>识别你选中的同一条任务，避免把操作施加到其他下载。</td></tr>
+<tr><td>文件名</td><td>用于列表显示和确认任务。扩展只取文件名部分，不将完整本地目录保存到守护记录。</td></tr>
+<tr><td>下载进度</td><td>包括已接收字节数和服务器提供的总大小，用于显示进度并检查是否有实际推进。</td></tr>
+<tr><td>状态与恢复能力</td><td>包括进行中、中断、完成、暂停、能否恢复等，用于决定继续等待、尝试恢复或停止自动操作。</td></tr>
+<tr><td>错误与安全状态</td><td>用于显示失败原因，并在浏览器要求安全确认、权限或文件处理时停止自动操作。</td></tr>
+<tr><td>开始下载的时间</td><td>用于排序、帮助你辨认任务，并核对原任务是否发生变化。界面还可能从文件名中显示其本身包含的日期。</td></tr>
+</tbody></table></div><p>任务列表默认查询最近最多 200 条进行中记录和 200 条中断记录；当前守护目标可单独查询。列表信息用于当前界面显示，不会把这批记录整体持久保存为另一份下载历史。</p><p>本扩展不读取网页正文、账户密码或 Cookies，不访问聊天内容，也不打开或解析下载文件的内容。</p></section>
+<section class="panel"><h2>2. 本机保存哪些记录、保留多久</h2><p>扩展使用浏览器的本地扩展存储，保存<strong>当前所选任务</strong>的必要状态，例如任务标识、文件名、开始时间、已观察到的进度、守护开关、重试次数、等待时间及最近错误。</p><p>同时保存<strong>本次守护最近最多 10 条运行事件</strong>及其发生时间，用于解释扩展做过什么。界面只展示其中最近的部分事件。</p><p>这些数据不使用浏览器的同步存储，不由本扩展同步到其他设备。关闭扩展小窗口不会清除它们；记录会保留到你主动清除、开始新的守护替换相应状态，或卸载扩展。运行时取得的列表会随刷新更新。</p><p>扩展不保存完整下载链接、Cookies 或下载文件内容。你在浏览器或系统中自行进行的备份、配置文件迁移等行为，由相应工具管理。</p></section>
+<section id="diagnostic" class="panel"><h2>3. “复制诊断”会包含什么</h2><p>诊断功能默认不运行。只有你点击“复制诊断”，并在提示中<strong>确认复制</strong>后，内容才会写入本机剪贴板。复制失败时，会在扩展内显示只读文本框，供你手动选择复制。</p><p>诊断仅从当前已读取的状态生成，包括：</p><ul>
+<li>扩展版本和浏览器的 <code>userAgent</code> 字符串；后者可能包含浏览器及操作系统版本信息。</li>
+<li>当前列表中下载中、可恢复及其他中断记录的数量。</li>
+<li>当前选中一条任务的守护状态、开关、重试次数、下载状态、暂停与恢复能力、字节数、错误码、可用操作和相关字段的数据类型。</li>
+</ul><p>没有选中任务时，诊断<strong>不包含任何任务明细</strong>。诊断一律省略文件名、日期、下载标识、完整链接、本地目录、Cookies、隐私浏览标记和其他任务的明细。</p><p>文件名和日期可能含个人信息，因此本版本不把它们加入诊断。复制后<strong>不会自动分享或发送</strong>；是否粘贴到其他应用、发给谁，由你决定。分享前可以先检查内容，剪贴板中已有的副本也由你和系统管理。</p></section>
+<section class="panel"><h2>4. 扩展权限用于什么</h2><div class="table-scroll"><table><thead><tr><th>权限</th><th>用途</th></tr></thead><tbody>
+<tr><td><code>downloads</code></td><td>读取已有下载的必要状态，对选中的任务调用暂停／恢复。该权限由浏览器提供；本扩展不以它删除下载历史、删除文件或批量新建下载。</td></tr>
+<tr><td><code>storage</code></td><td>在本机保存当前守护状态和有限的运行记录。</td></tr>
+<tr><td><code>alarms</code></td><td>在浏览器后台定期检查所选任务，以便关闭小窗口后仍可尝试恢复。</td></tr>
+</tbody></table></div><p>扩展没有站点访问权限或 Cookies 权限，不包含远程脚本、分析 SDK、广告代码或外部字体等资源。</p></section>
+<section id="clear" class="panel"><h2>5. 怎样停止处理或清除本地记录</h2><ol>
+<li>打开“下载续航 - DownFlow”。如正在守护，先点击<strong>“停止守护”</strong>。</li>
+<li>展开<strong>“诊断与本地记录”</strong>。</li>
+<li>点击<strong>“清除本地守护记录”</strong>。</li>
+</ol><p>守护运行时，清除按钮不可用；后台也会检查守护已停止。清除后，本扩展保存的守护状态与事件被移除，相应定时检查和标记也会清理。</p><p><strong>这不会删除 Edge 的下载历史、已经下载的文件或未完成文件。</strong>如需管理它们，请使用 Edge 下载页或系统文件管理器。清除扩展记录也不会撤回你已经自行复制或分享的诊断副本。</p><p>你也可以通过 Edge 扩展管理页停用或卸载扩展。停止守护、停用或卸载不会替你取消原下载任务。</p></section>
+<section class="panel"><h2>6. 原网站和浏览器的处理</h2><p>下载文件仍由 Edge 与原下载服务器传输。登录状态、服务器访问日志、文件保存位置、链接有效期和浏览器自身的数据处理，适用对应网站、浏览器或系统的规则。DownFlow（下载续航）不提供下载中转服务，也不延长原链接权限。</p></section>
+<section id="contact" class="panel"><h2>7. 联系维护者</h2><p>维护者：<a href="https://github.com/Raymond-Hear">聆风（聆风Raymond）</a>。</p><p>如对数据处理或清除记录有疑问，请发送邮件至 <a href="mailto:heylingfeng@111.com">heylingfeng@111.com</a>。</p><p>本页描述的是 1.2.0 版本的实际数据处理方式；使用其他版本时，请查看对应版本的说明。</p></section>
+<footer class="footer"><p>DownFlow（下载续航） · 隐私说明 · 版本 1.2.0 · 2026-11-17</p><p><a href="index.html">返回安装与使用说明</a></p></footer>
+
+</div></main>
+</body>
+</html>
